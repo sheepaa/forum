@@ -4,6 +4,7 @@ import com.newcoder.community.dao.DiscussPostMapper;
 import com.newcoder.community.dao.UserMapper;
 import com.newcoder.community.entity.DiscussPost;
 import com.newcoder.community.entity.User;
+import com.newcoder.community.util.SensitiveFilter;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import java.util.List;
 @SpringBootTest
 @ContextConfiguration(classes = CommunityApplication.class)
 public class MapperTests {
+    @Autowired
+    SensitiveFilter sensitiveFilter;
 
     @Autowired
     private UserMapper userMapper;
@@ -75,5 +78,12 @@ public class MapperTests {
         int rows = discussPostMapper.selectDiscussPostRows(149);
         System.out.println(rows);
     }
+
+    @Test
+    public void testSensitiveFilter(){
+        String output = sensitiveFilter.filter("这里可以吸毒，可以嫖娼，可以开票，哈哈哈，还可以赌博");
+        System.out.println(output);
+    }
+
 
 }

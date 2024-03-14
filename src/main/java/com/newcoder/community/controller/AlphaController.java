@@ -1,9 +1,8 @@
 package com.newcoder.community.controller;
 
 import com.newcoder.community.entity.User;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.newcoder.community.util.CommonUtil;
+import jakarta.servlet.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +44,6 @@ public class AlphaController {
         System.out.println(num);
         return "success";
     }
-
     @GetMapping(path = "/info")
     @ResponseBody
     public User info(){
@@ -68,5 +66,38 @@ public class AlphaController {
         map.put("user",user);
         result.add(map);
         return user;
+    }
+
+    @PostMapping(path = "/testUser")
+    @ResponseBody
+    public String testUser(User user){
+        System.out.println(user);
+        return "success";
+    }
+
+    @GetMapping(path = "/cookie/set")
+    @ResponseBody
+    public String setCookie(HttpServletResponse response){
+        Cookie cookie = new Cookie("code", CommonUtil.generateUUID());
+        cookie.setPath("/community/alpha");
+        cookie.setMaxAge(60*10);
+        response.addCookie(cookie);
+        return "set cookie";
+    }
+
+    @GetMapping(path = "/session/set")
+    @ResponseBody
+    public String setSession(HttpSession session){
+        session.setAttribute("id", 1);
+        session.setAttribute("name", "test");
+        return "set session";
+    }
+
+    @GetMapping(path = "/session/get")
+    @ResponseBody
+    public String getSession(HttpSession session){
+        System.out.println(session.getAttribute("id"));
+        System.out.println(session.getAttribute("name"));
+        return "get session";
     }
 }
